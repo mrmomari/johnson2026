@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Johnson Jaguars — Class of 2026 Memory Gallery</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --navy:#0b1e3d;
+  --navy-mid:#13284f;
+  --navy-deep:#070f1f;
+  --columbia:#5b9fd6;
+  --columbia-light:#8ec4e8;
+  --columbia-pale:#dbeef8;
+  --silver:#b8c8d8;
+  --gold:#c8a951;
+  --gold-light:#e0c069;
+  --white:#fff;
+  --off:#f2f6fb;
+  --text-dim:#627fa0;
+  --card:#fff;
+  --r:14px;
+  --rs:8px;
+  --sh:0 4px 24px rgba(11,30,61,.13);
+  --sh-lg:0 12px 48px rgba(11,30,61,.22);
+}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;background:var(--off);color:var(--navy);overflow-x:hidden;line-height:1.6}
+
+/* ── SIDEBAR LAYOUT ── */
+.app-shell{display:flex;min-height:100vh}
+.sidebar{
+  width:300px;min-width:260px;max-width:300px;
+  background:var(--navy-deep);
+  position:fixed;top:0;left:0;bottom:0;
+  display:flex;flex-direction:column;
+  border-right:1px solid rgba(255,255,255,.07);
+  z-index:200;overflow-y:auto;
+}
+.main-area{margin-left:300px;flex:1;min-height:100vh;display:flex;flex-direction:column}
+
+/* ── SIDEBAR ── */
+.sidebar-top{
+  padding:28px 20px 20px;
+  border-bottom:1px solid rgba(255,255,255,.08);
+  text-align:center;
+}
+.school-logo-wrap{
+  width:88px;height:88px;margin:0 auto 14px;
+  border-radius:50%;overflow:hidden;
+  border:2px solid rgba(200,169,81,.5);
+  background:var(--navy-mid);
+  display:flex;align-items:center;justify-content:center;
+}
+.school-logo-wrap img{width:100%;height:100%;object-fit:contain;padding:6px}
+.sidebar-top h2{font-family:'Playfair Display',serif;font-size:1.15rem;color:var(--white);font-weight:700;margin-bottom:4px}
+.year-tag{display:inline-block;background:var(--gold);color:var(--navy-deep);font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:3px 14px;border-radius:100px;margin-bottom:6px}
+.motto{color:var(--silver);font-size:10px;font-style:italic;letter-spacing:.04em;opacity:.6}
+
+.sidebar-nav{padding:16px 14px 8px}
+.nav-section-label{font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.22);padding:10px 10px 5px}
+.sidebar-nav a{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:var(--rs);color:var(--silver);font-size:13px;font-weight:500;text-decoration:none;transition:background .18s,color .18s;margin-bottom:2px}
+.sidebar-nav a:hover,.sidebar-nav a.active{background:rgba(91,159,214,.15);color:var(--columbia-light)}
+
+/* Upload panel */
+.sidebar-upload{
+  margin:4px 14px 6px;
+  background:rgba(91,159,214,.08);
+  border:1.5px dashed rgba(91,159,214,.35);
+  border-radius:var(--r);padding:16px 14px;
+  cursor:pointer;text-align:center;
+  transition:background .2s,border-color .2s;
+}
+.sidebar-upload:hover,.sidebar-upload.drag-over{background:rgba(91,159,214,.16);border-color:var(--columbia-light)}
+.sidebar-upload .up-icon{font-size:1.6rem;margin-bottom:6px}
+.sidebar-upload h4{color:var(--white);font-size:13px;font-weight:600;margin-bottom:3px}
+.sidebar-upload p{color:var(--text-dim);font-size:11px}
+.sidebar-upload input[type=file]{display:none}
+
+.upload-fields{padding:0 14px 10px;display:none;flex-direction:column;gap:7px}
+.upload-fields.visible{display:flex}
+.upload-fields input,.upload-fields textarea{
+  background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.15);
+  border-radius:var(--rs);padding:9px 11px;color:var(--white);
+  font-family:'DM Sans',sans-serif;font-size:12px;outline:none;
+  transition:border-color .2s;width:100%;
+}
+.upload-fields input::placeholder,.upload-fields textarea::placeholder{color:rgba(255,255,255,.28)}
+.upload-fields input:focus,.upload-fields textarea:focus{border-color:var(--columbia)}
+.upload-fields textarea{resize:none;height:56px}
+.btn-submit{
+  background:var(--gold);color:var(--navy-deep);border:none;border-radius:var(--rs);
+  padding:10px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:700;
+  cursor:pointer;transition:background .2s,transform .15s;width:100%;
+}
+.btn-submit:hover{background:var(--gold-light);transform:translateY(-1px)}
+.btn-submit:disabled{opacity:.5;cursor:not-allowed;transform:none}
+
+.preview-thumbs{display:flex;flex-wrap:wrap;gap:5px;padding:0 14px 4px}
+.preview-thumbs img{width:50px;height:38px;object-fit:cover;border-radius:6px;border:1.5px solid rgba(91,159,214,.4)}
+.preview-count{padding:0 14px 8px;font-size:11px;color:var(--columbia-light);font-weight:500}
+
+/* Stats */
+.sidebar-stats{padding:12px 14px;border-top:1px solid rgba(255,255,255,.07);display:grid;grid-template-columns:1fr 1fr;gap:7px}
+.stat-cell{background:rgba(255,255,255,.04);border-radius:var(--rs);padding:10px;text-align:center}
+.stat-cell .s-num{font-family:'Playfair Display',serif;font-size:1.35rem;color:var(--gold);font-weight:700;line-height:1}
+.stat-cell .s-lbl{color:rgba(255,255,255,.3);font-size:10px;letter-spacing:.07em;text-transform:uppercase;margin-top:3px}
+
+.sidebar-footer{padding:14px;text-align:center;border-top:1px solid rgba(255,255,255,.07)}
+.sidebar-footer p{font-size:10px;color:rgba(255,255,255,.18);line-height:1.7}
+.sidebar-footer .heart{color:#e85d75}
+
+/* ── HERO ── */
+.hero{
+  background:linear-gradient(160deg,var(--navy) 0%,var(--navy-mid) 60%,#1a3a6a 100%);
+  padding:52px 44px 44px;position:relative;overflow:hidden;
+}
+.hero::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse 70% 50% at 90% 50%,rgba(91,159,214,.12) 0%,transparent 70%),
+    radial-gradient(ellipse 40% 60% at 5% 80%,rgba(200,169,81,.07) 0%,transparent 60%);
+  pointer-events:none;
+}
+.hero-inner{position:relative;z-index:1;max-width:900px}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--columbia-light);margin-bottom:14px}
+.hero-eyebrow .dot{width:5px;height:5px;border-radius:50%;background:var(--columbia);animation:blink 2s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+.hero h1{font-family:'Playfair Display',serif;font-size:clamp(1.9rem,4vw,3rem);font-weight:900;color:var(--white);line-height:1.1;margin-bottom:12px}
+.hero h1 .accent{color:var(--gold)}
+.hero .sub{font-size:14px;color:rgba(255,255,255,.5);font-weight:300;letter-spacing:.06em;font-style:italic}
+
+/* ── MAIN ── */
+.main-content{flex:1;padding:28px 36px;width:100%}
+
+.gallery-toolbar{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:20px}
+.toolbar-left h2{font-family:'Playfair Display',serif;font-size:1.4rem;color:var(--navy);font-weight:700;margin-bottom:2px}
+.toolbar-left p{font-size:13px;color:var(--text-dim)}
+.toolbar-right{display:flex;gap:7px;align-items:center}
+.view-btn{background:none;border:1.5px solid #d4e0ec;border-radius:var(--rs);padding:7px 10px;cursor:pointer;color:var(--text-dim);font-size:14px;transition:all .18s}
+.view-btn.active,.view-btn:hover{border-color:var(--columbia);color:var(--columbia);background:#edf6fd}
+.sort-select{border:1.5px solid #d4e0ec;border-radius:var(--rs);padding:7px 12px;font-family:'DM Sans',sans-serif;font-size:13px;color:var(--navy);background:var(--white);outline:none;cursor:pointer}
+
+/* Gallery */
+.gallery-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:20px}
+.gallery-grid.view-masonry{columns:3;column-gap:20px;display:block}
+.gallery-grid.view-masonry .photo-card{break-inside:avoid;margin-bottom:20px;display:block}
+.gallery-grid.view-list{grid-template-columns:1fr}
+
+/* Loading state */
+.gallery-loading{grid-column:1/-1;text-align:center;padding:60px 32px;color:var(--text-dim)}
+.spinner{display:inline-block;width:36px;height:36px;border:3px solid rgba(91,159,214,.2);border-top-color:var(--columbia);border-radius:50%;animation:spin .8s linear infinite;margin-bottom:12px}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+.gallery-empty{grid-column:1/-1;text-align:center;padding:80px 32px;border:2px dashed #d4e0ec;border-radius:var(--r);color:var(--text-dim)}
+.gallery-empty .e-icon{font-size:3rem;margin-bottom:14px;opacity:.4}
+.gallery-empty h3{font-size:1.1rem;color:#4a6080;margin-bottom:8px}
+
+/* Photo card */
+.photo-card{background:var(--card);border-radius:var(--r);overflow:hidden;box-shadow:var(--sh);transition:transform .22s,box-shadow .22s;animation:cardIn .4s ease both}
+@keyframes cardIn{from{opacity:0;transform:translateY(14px) scale(.97)}to{opacity:1;transform:none}}
+.photo-card:hover{transform:translateY(-5px);box-shadow:var(--sh-lg)}
+
+.photo-img-wrap{position:relative;overflow:hidden;background:var(--navy-mid);cursor:zoom-in}
+.gallery-grid:not(.view-masonry) .photo-img-wrap{aspect-ratio:4/3}
+.gallery-grid.view-list .photo-img-wrap{width:220px;flex-shrink:0;aspect-ratio:4/3}
+.gallery-grid.view-list .photo-card{display:flex}
+.photo-img-wrap img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .4s ease}
+.gallery-grid.view-masonry .photo-img-wrap img{height:auto}
+.photo-card:hover .photo-img-wrap img{transform:scale(1.05)}
+.photo-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(7,15,31,.75) 0%,transparent 55%);opacity:0;transition:opacity .3s;display:flex;align-items:flex-end;padding:12px}
+.photo-card:hover .photo-overlay{opacity:1}
+.overlay-uploader{color:rgba(255,255,255,.9);font-size:12px;font-weight:600;background:rgba(11,30,61,.55);backdrop-filter:blur(4px);padding:4px 10px;border-radius:100px}
+.zoom-tag{position:absolute;top:9px;right:9px;background:rgba(255,255,255,.15);backdrop-filter:blur(4px);color:white;font-size:11px;padding:3px 9px;border-radius:6px;opacity:0;transition:opacity .3s}
+.photo-card:hover .zoom-tag{opacity:1}
+.new-badge{position:absolute;top:9px;left:9px;background:var(--gold);color:var(--navy-deep);font-size:9px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;padding:3px 9px;border-radius:100px}
+
+.photo-body{padding:13px 15px 11px}
+.photo-meta{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+.uploader-info{display:flex;align-items:center;gap:8px}
+.avatar{width:30px;height:30px;border-radius:50%;background:var(--navy);color:var(--gold);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0}
+.uploader-name-text{font-size:13px;font-weight:600;color:var(--navy)}
+.grad-name{font-size:11px;color:var(--columbia);font-weight:500;margin-top:1px}
+.photo-date-text{font-size:11px;color:var(--silver)}
+.photo-caption{font-size:13px;color:#4a6080;margin-bottom:11px;line-height:1.5;min-height:18px}
+.photo-actions{display:flex;align-items:center;gap:7px;padding-top:9px;border-top:1px solid #edf2f7}
+.like-btn{display:flex;align-items:center;gap:5px;background:none;border:1.5px solid #e2eaf4;border-radius:100px;padding:5px 12px;font-size:12px;font-family:'DM Sans',sans-serif;cursor:pointer;color:#607a90;transition:all .18s;font-weight:500}
+.like-btn:hover,.like-btn.liked{border-color:#e85d75;color:#e85d75;background:#fff0f3}
+.like-btn.liked .hrt{animation:heartPop .35s ease}
+@keyframes heartPop{0%{transform:scale(1)}50%{transform:scale(1.5)}100%{transform:scale(1)}}
+.comment-toggle{display:flex;align-items:center;gap:5px;background:none;border:1.5px solid #e2eaf4;border-radius:100px;padding:5px 12px;font-size:12px;font-family:'DM Sans',sans-serif;cursor:pointer;color:#607a90;transition:all .18s;font-weight:500}
+.comment-toggle:hover{border-color:var(--columbia);color:var(--columbia);background:#edf6fd}
+.comment-section{margin-top:11px;display:none}
+.comment-section.open{display:block}
+.comment-row{display:flex;gap:6px;margin-bottom:7px}
+.comment-row input{flex:1;border:1px solid #dde7f0;border-radius:7px;padding:7px 10px;font-size:12px;font-family:'DM Sans',sans-serif;outline:none;transition:border-color .2s}
+.comment-row input:focus{border-color:var(--columbia)}
+.comment-post{background:var(--columbia);color:white;border:none;border-radius:7px;padding:7px 13px;font-size:12px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;transition:background .2s}
+.comment-post:hover{background:var(--columbia-light)}
+.comments-list{max-height:110px;overflow-y:auto}
+.c-item{padding:5px 0;border-bottom:1px solid #f0f5fa;font-size:12px}
+.c-item:last-child{border-bottom:none}
+.c-author{font-weight:600;color:var(--navy);margin-right:4px}
+.c-text{color:#4a6080}
+
+/* ── LIGHTBOX ── */
+.lightbox{position:fixed;inset:0;z-index:900;background:rgba(4,10,22,.96);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:2rem;opacity:0;pointer-events:none;transition:opacity .28s}
+.lightbox.open{opacity:1;pointer-events:all}
+.lb-img-wrap{position:relative;max-width:1100px;width:100%}
+.lb-img-wrap img{width:100%;max-height:75vh;object-fit:contain;border-radius:10px;transform:scale(.94);transition:transform .3s;display:block}
+.lightbox.open .lb-img-wrap img{transform:scale(1)}
+.lb-close{position:fixed;top:20px;right:24px;width:42px;height:42px;background:rgba(255,255,255,.12);border:none;border-radius:50%;color:white;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .2s;backdrop-filter:blur(4px)}
+.lb-close:hover{background:rgba(255,255,255,.25)}
+.lb-nav{position:absolute;top:50%;transform:translateY(-50%);width:50px;height:50px;background:rgba(255,255,255,.1);border:none;border-radius:50%;color:white;font-size:24px;cursor:pointer;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(4px);transition:background .2s}
+.lb-nav:hover{background:rgba(255,255,255,.22)}
+.lb-prev{left:-64px}
+.lb-next{right:-64px}
+.lb-info{margin-top:14px;text-align:center;max-width:700px;width:100%}
+.lb-info .lb-who{color:var(--white);font-weight:600;font-size:14px}
+.lb-info .lb-cap{color:rgba(255,255,255,.5);font-size:13px;margin-top:4px}
+.lb-counter{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);color:rgba(255,255,255,.35);font-size:12px}
+
+/* ── INSPIRATION ── */
+.inspiration{background:var(--navy);padding:44px 36px}
+.insp-header{margin-bottom:24px}
+.insp-header h2{font-family:'Playfair Display',serif;font-size:1.5rem;color:var(--white);margin-bottom:5px}
+.insp-header p{font-size:13px;color:var(--text-dim)}
+.insp-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px}
+.insp-card{background:rgba(255,255,255,.045);border:1px solid rgba(255,255,255,.09);border-radius:var(--r);padding:18px;position:relative;overflow:hidden;transition:transform .22s,background .22s}
+.insp-card::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:var(--gold);transform:scaleX(0);transform-origin:left;transition:transform .3s}
+.insp-card:hover{transform:translateY(-3px);background:rgba(255,255,255,.07)}
+.insp-card:hover::after{transform:scaleX(1)}
+.insp-card .ic-icon{font-size:1.4rem;margin-bottom:9px}
+.insp-card blockquote{font-family:'Playfair Display',serif;font-style:italic;font-size:.92rem;color:rgba(255,255,255,.8);line-height:1.65;margin-bottom:10px}
+.insp-card cite{font-size:10px;color:var(--text-dim);letter-spacing:.07em;text-transform:uppercase;font-style:normal}
+
+/* ── MOBILE ── */
+.mob-fab{display:none;position:fixed;bottom:24px;right:20px;z-index:400;width:56px;height:56px;border-radius:50%;background:var(--gold);color:var(--navy-deep);border:none;font-size:22px;cursor:pointer;box-shadow:0 6px 24px rgba(200,169,81,.45);transition:transform .2s}
+.mob-fab:hover{transform:scale(1.08)}
+
+.mob-drawer{position:fixed;inset:0;z-index:800;background:rgba(4,10,22,.85);display:none;align-items:flex-end}
+.mob-drawer.open{display:flex}
+.mob-drawer-inner{background:var(--navy-deep);width:100%;border-radius:20px 20px 0 0;padding:26px 18px 38px;max-height:80vh;overflow-y:auto}
+.mob-drawer-inner h3{color:var(--white);font-size:1rem;font-weight:700;margin-bottom:14px}
+.drawer-drop{border:2px dashed rgba(91,159,214,.35);border-radius:var(--r);padding:22px;text-align:center;cursor:pointer;margin-bottom:10px;transition:background .2s,border-color .2s}
+.drawer-drop:hover,.drawer-drop.drag-over{background:rgba(91,159,214,.08);border-color:var(--columbia)}
+.drawer-drop .d-icon{font-size:1.8rem;margin-bottom:7px}
+.drawer-drop p{font-size:13px;color:var(--text-dim)}
+.drawer-drop input[type=file]{display:none}
+.drawer-fields{display:flex;flex-direction:column;gap:8px}
+.drawer-fields input,.drawer-fields textarea{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.15);border-radius:var(--rs);padding:10px 12px;color:var(--white);font-family:'DM Sans',sans-serif;font-size:13px;outline:none;width:100%}
+.drawer-fields input::placeholder,.drawer-fields textarea::placeholder{color:rgba(255,255,255,.28)}
+.drawer-fields textarea{resize:none;height:58px}
+.drawer-close{background:rgba(255,255,255,.07);border:none;border-radius:var(--rs);padding:9px 20px;color:var(--silver);font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer;margin-top:4px;width:100%}
+.preview-mob{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:7px}
+.preview-mob img{width:50px;height:38px;object-fit:cover;border-radius:6px;border:1.5px solid rgba(91,159,214,.4)}
+
+@media(max-width:900px){
+  .sidebar{width:100%;height:auto;position:relative;flex-direction:row;flex-wrap:wrap;padding:10px;min-height:auto}
+  .sidebar-top{border:none;padding:7px 10px;text-align:left;display:flex;align-items:center;gap:10px;width:100%}
+  .school-logo-wrap{width:40px;height:40px;margin:0}
+  .sidebar-top h2{font-size:.9rem}
+  .motto,.year-tag{display:none}
+  .sidebar-nav{display:flex;gap:3px;flex-wrap:wrap;padding:6px 0 3px;width:100%;border-top:1px solid rgba(255,255,255,.07)}
+  .sidebar-nav a{padding:6px 11px;font-size:12px}
+  .nav-section-label,.sidebar-upload,.upload-fields,.preview-thumbs,.preview-count,.sidebar-stats,.sidebar-footer{display:none!important}
+  .app-shell{flex-direction:column}
+  .main-area{margin-left:0}
+  .mob-fab{display:flex;align-items:center;justify-content:center}
+  .hero{padding:24px 18px}
+  .main-content{padding:18px 14px}
+  .gallery-grid{grid-template-columns:repeat(auto-fill,minmax(155px,1fr));gap:11px}
+  .inspiration{padding:28px 14px}
+  .lb-prev{left:4px}.lb-next{right:4px}
+}
+
+/* Toast */
+.toast{position:fixed;bottom:26px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--navy);color:var(--white);border:1px solid var(--gold);border-radius:10px;padding:11px 22px;font-size:13px;font-weight:500;box-shadow:var(--sh-lg);z-index:9999;transition:transform .3s ease,opacity .3s ease;opacity:0;white-space:nowrap;max-width:90vw;text-align:center}
+.toast.show{transform:translateX(-50%) translateY(0);opacity:1}
+
+::-webkit-scrollbar{width:5px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:rgba(91,159,214,.25);border-radius:3px}
+</style>
+</head>
+<body>
+
+<div class="app-shell">
+
+  <!-- ═══════ SIDEBAR ═══════ -->
+  <aside class="sidebar">
+    <div class="sidebar-top">
+      <div class="school-logo-wrap">
+        <img
+          src="https://schoolmanager.s3.amazonaws.com/uploads/pictures/d9d0f54a9822464f9e8a02d15ffa8b47.png"
+          alt="Johnson High School"
+          onerror="this.style.display='none';document.getElementById('logoSvg').style.display='block'"
+        >
+        <svg id="logoSvg" style="display:none" viewBox="0 0 80 90" width="72" height="80">
+          <path d="M40 2L78 16V46C78 68 62 82 40 88C18 82 2 68 2 46V16L40 2Z" fill="#1c3a6b" stroke="#c8a951" stroke-width="1.5"/>
+          <ellipse cx="40" cy="48" rx="16" ry="18" fill="none" stroke="#c8a951" stroke-width="1.2"/>
+          <ellipse cx="32" cy="44" rx="3.5" ry="4" fill="none" stroke="#c8a951" stroke-width="1.2"/>
+          <ellipse cx="48" cy="44" rx="3.5" ry="4" fill="none" stroke="#c8a951" stroke-width="1.2"/>
+          <ellipse cx="32" cy="44.5" rx="1.8" ry="2.5" fill="#c8a951"/>
+          <ellipse cx="48" cy="44.5" rx="1.8" ry="2.5" fill="#c8a951"/>
+          <path d="M37 52L40 55L43 52L40 50Z" fill="#c8a951"/>
+          <path d="M36 57 Q40 60 44 57" stroke="#c8a951" stroke-width="1" fill="none" stroke-linecap="round"/>
+          <path d="M25 50L35 52M25 54L35 54M45 52L55 50M45 54L55 54" stroke="#c8a951" stroke-width=".7" opacity=".7"/>
+          <path d="M28 30L24 22L32 28ZM52 30L56 22L48 28Z" fill="#c8a951" opacity=".8"/>
+          <text x="40" y="22" text-anchor="middle" fill="#c8a951" font-size="7" font-family="serif" font-weight="bold">JHS</text>
+          <text x="40" y="80" text-anchor="middle" fill="#c8a951" font-size="5" font-family="sans-serif">✦ 2026 ✦</text>
+        </svg>
+      </div>
+      <div>
+        <div class="year-tag">Class of 2026</div>
+        <h2>Johnson Jaguars</h2>
+        <div class="motto">Non esse pares, sed praestare</div>
+      </div>
+    </div>
+
+    <nav class="sidebar-nav">
+      <div class="nav-section-label">Navigate</div>
+      <a href="#gallery-anchor" class="active">🖼️ &nbsp;Photo Gallery</a>
+      <a href="#inspiration-anchor">✨ &nbsp;For Graduates</a>
+      <div class="nav-section-label">Upload</div>
+    </nav>
+
+    <!-- UPLOAD ZONE -->
+    <div class="sidebar-upload" id="sideDropZone" onclick="document.getElementById('sideFileInput').click()">
+      <div class="up-icon">📸</div>
+      <h4>Share Your Photos</h4>
+      <p>Click or drag &amp; drop · Multiple files OK</p>
+      <input type="file" id="sideFileInput" accept="image/*" multiple>
+    </div>
+    <div id="sideThumbs" class="preview-thumbs"></div>
+    <div id="sideCount" class="preview-count" style="display:none"></div>
+    <div class="upload-fields" id="sideFields">
+      <input type="text" id="sideName" placeholder="Your Family Name" maxlength="50">
+      <input type="text" id="sideGrad" placeholder="Graduate's Name" maxlength="50">
+      <textarea id="sideCap" placeholder="Caption or message…" maxlength="200"></textarea>
+      <button class="btn-submit" id="sideSubmitBtn" onclick="submitUpload('side')">🎓 Add to Gallery</button>
+    </div>
+
+    <div class="sidebar-stats">
+      <div class="stat-cell"><div class="s-num" id="statPhotos">—</div><div class="s-lbl">Photos</div></div>
+      <div class="stat-cell"><div class="s-num" id="statHearts">—</div><div class="s-lbl">Hearts</div></div>
+      <div class="stat-cell"><div class="s-num" id="statMsgs">—</div><div class="s-lbl">Messages</div></div>
+      <div class="stat-cell"><div class="s-num" style="font-size:1rem">2026</div><div class="s-lbl">Year</div></div>
+    </div>
+
+    <div class="sidebar-footer">
+      <p>Johnson High School · North East ISD<br>San Antonio, Texas<br>Made with <span class="heart">❤️</span> by Jaguar families</p>
+    </div>
+  </aside>
+
+  <!-- ═══════ MAIN ═══════ -->
+  <div class="main-area">
+
+    <div class="hero">
+      <div class="hero-inner">
+        <div class="hero-eyebrow"><span class="dot"></span>Jaguar Pride · North East ISD · San Antonio, Texas</div>
+        <h1>Congratulations<br><span class="accent">Class of 2026!</span></h1>
+        <div class="sub">Home of the Jaguars &nbsp;·&nbsp; #JaguarPride #EveryoneCounts</div>
+      </div>
+    </div>
+
+    <div class="main-content" id="gallery-anchor">
+      <div class="gallery-toolbar">
+        <div class="toolbar-left">
+          <h2>Memory Gallery</h2>
+          <p id="gallerySub">Loading memories…</p>
+        </div>
+        <div class="toolbar-right">
+          <button class="view-btn active" id="viewGrid" onclick="setView('grid')" title="Grid">⊞</button>
+          <button class="view-btn" id="viewMason" onclick="setView('masonry')" title="Masonry">⊟</button>
+          <button class="view-btn" id="viewList" onclick="setView('list')" title="List">☰</button>
+          <select class="sort-select" id="sortSelect" onchange="renderGallery()">
+            <option value="newest">Newest First</option>
+            <option value="oldest">Oldest First</option>
+            <option value="mostliked">Most Liked</option>
+          </select>
+        </div>
+      </div>
+      <div class="gallery-grid" id="galleryGrid">
+        <div class="gallery-loading">
+          <div class="spinner"></div>
+          <p>Loading photos…</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="inspiration" id="inspiration-anchor">
+      <div class="insp-header">
+        <h2>To the Class of 2026</h2>
+        <p>Words to carry with you as you step boldly into what comes next.</p>
+      </div>
+      <div class="insp-grid">
+        <div class="insp-card"><div class="ic-icon">🌅</div><blockquote>"You have brains in your head. You have feet in your shoes. You can steer yourself any direction you choose."</blockquote><cite>— Dr. Seuss</cite></div>
+        <div class="insp-card"><div class="ic-icon">🦁</div><blockquote>"Courage is not the absence of fear, but the triumph over it. The brave person is not one who does not feel afraid, but one who conquers that fear."</blockquote><cite>— Nelson Mandela</cite></div>
+        <div class="insp-card"><div class="ic-icon">🚀</div><blockquote>"Success is not final, failure is not fatal: it is the courage to continue that counts."</blockquote><cite>— Winston Churchill</cite></div>
+        <div class="insp-card"><div class="ic-icon">⭐</div><blockquote>"Today you graduate, but you will never stop learning. Every day is a new classroom, every person a new teacher."</blockquote><cite>— With Love, Your Johnson Family</cite></div>
+        <div class="insp-card"><div class="ic-icon">🎓</div><blockquote>"The secret of getting ahead is getting started. Jaguars, you've already started — now go change the world."</blockquote><cite>— Mark Twain (adapted)</cite></div>
+      </div>
+    </div>
+
+    <footer style="background:#060e1e;color:rgba(255,255,255,.3);text-align:center;padding:28px 20px;border-top:3px solid var(--gold);font-size:12px;line-height:2">
+      <strong style="color:rgba(255,255,255,.65);font-family:'Playfair Display',serif;font-size:13px">Johnson High School · Class of 2026</strong><br>
+      North East Independent School District · San Antonio, Texas<br>
+      <em style="color:var(--gold);font-size:11px">Non esse pares, sed praestare</em><br>
+      <span style="margin-top:6px;display:block;font-size:11px">Photos shared here are for personal, celebratory use only.</span>
+    </footer>
+  </div>
+</div>
+
+<!-- MOBILE FAB -->
+<button class="mob-fab" onclick="openDrawer()" title="Upload Photos">📸</button>
+
+<!-- MOBILE DRAWER -->
+<div class="mob-drawer" id="mobDrawer" onclick="if(event.target===this)closeDrawer()">
+  <div class="mob-drawer-inner">
+    <h3>📸 Share Your Photos</h3>
+    <div class="drawer-drop" id="drawerDrop" onclick="document.getElementById('drawerFileInput').click()">
+      <div class="d-icon">🖼️</div>
+      <p>Tap to choose · Multiple files welcome</p>
+      <input type="file" id="drawerFileInput" accept="image/*" multiple>
+    </div>
+    <div id="drawerThumbs" class="preview-mob"></div>
+    <div id="drawerCount" style="font-size:11px;color:var(--columbia-light);margin-bottom:8px"></div>
+    <div class="drawer-fields">
+      <input type="text" id="drawerName" placeholder="Your Family Name" maxlength="50">
+      <input type="text" id="drawerGrad" placeholder="Graduate's Name" maxlength="50">
+      <textarea id="drawerCap" placeholder="Caption or message…" maxlength="200"></textarea>
+      <button class="btn-submit" id="drawerSubmitBtn" onclick="submitUpload('drawer')">🎓 Add to Gallery</button>
+      <button class="drawer-close" onclick="closeDrawer()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox" onclick="if(event.target===this)closeLb()">
+  <button class="lb-close" onclick="closeLb()">✕</button>
+  <div class="lb-img-wrap">
+    <button class="lb-nav lb-prev" onclick="event.stopPropagation();navLb(-1)">‹</button>
+    <img id="lbImg" src="" alt="">
+    <button class="lb-nav lb-next" onclick="event.stopPropagation();navLb(1)">›</button>
+  </div>
+  <div class="lb-info">
+    <div class="lb-who" id="lbWho"></div>
+    <div class="lb-cap" id="lbCap"></div>
+  </div>
+  <div class="lb-counter" id="lbCounter"></div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<!-- SUPABASE SDK -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script>
+// ── SUPABASE CONFIG ──
+const SUPABASE_URL = 'https://rvvtvfmqdknfzuiuailn.supabase.co';
+const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJ2dnR2Zm1xZGtuZnp1aXVhaWxuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk3MzM0MTgsImV4cCI6MjA5NTMwOTQxOH0.bmfCF4B1FeJacij6NTHUNrpGsw9YuVm_7ZU9Spvl4_I';
+const BUCKET = 'photos';
+
+const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
+
+// ── STATE ──
+let photos = [];
+let pendingSide = [];
+let pendingDrawer = [];
+let lbIdx = 0;
+let currentView = 'grid';
+let likedSet = new Set(JSON.parse(localStorage.getItem('jhs26_liked')||'[]'));
+
+function saveLiked(){ localStorage.setItem('jhs26_liked', JSON.stringify([...likedSet])); }
+
+// ── LOAD PHOTOS ──
+async function loadPhotos(){
+  try {
+    const { data: photoRows, error } = await sb.from('photos').select('*').order('created_at', { ascending: false });
+    if(error) throw error;
+    const { data: commentRows } = await sb.from('comments').select('*').order('created_at', { ascending: true });
+    const commentMap = {};
+    (commentRows||[]).forEach(c => {
+      if(!commentMap[c.photo_id]) commentMap[c.photo_id] = [];
+      commentMap[c.photo_id].push(c);
+    });
+    photos = (photoRows||[]).map(p => ({
+      id: p.id,
+      src: p.image_url,
+      uploader: p.uploader || 'A Jaguar Family',
+      grad: p.grad_name || '',
+      caption: p.caption || '',
+      date: new Date(p.created_at).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}),
+      ts: new Date(p.created_at).getTime(),
+      likes: p.likes || 0,
+      liked: likedSet.has(p.id),
+      comments: (commentMap[p.id]||[]).map(c => ({ id: c.id, author: c.author, text: c.body }))
+    }));
+    renderGallery();
+    updateStats();
+  } catch(e) {
+    console.error(e);
+    showToast('Could not load photos. Check your connection.');
+    document.getElementById('galleryGrid').innerHTML = `<div class="gallery-empty"><div class="e-icon">⚠️</div><h3>Could not connect to the gallery</h3><p>Please check your internet connection and refresh the page.</p></div>`;
+  }
+}
+
+// ── REAL-TIME ──
+sb.channel('photos-channel')
+  .on('postgres_changes', { event: '*', schema: 'public', table: 'photos' }, () => loadPhotos())
+  .on('postgres_changes', { event: '*', schema: 'public', table: 'comments' }, () => loadPhotos())
+  .subscribe();
+
+// ── DRAG & DROP SETUP ──
+function setupDrop(zoneEl, inputEl, pendingArr, thumbsEl, countEl, fieldsEl){
+  zoneEl.addEventListener('dragover', e => { e.preventDefault(); zoneEl.classList.add('drag-over'); });
+  zoneEl.addEventListener('dragleave', () => zoneEl.classList.remove('drag-over'));
+  zoneEl.addEventListener('drop', e => { e.preventDefault(); zoneEl.classList.remove('drag-over'); processFiles(e.dataTransfer.files, pendingArr, thumbsEl, countEl, fieldsEl); });
+  inputEl.addEventListener('change', () => processFiles(inputEl.files, pendingArr, thumbsEl, countEl, fieldsEl));
+}
+
+setupDrop(
+  document.getElementById('sideDropZone'),
+  document.getElementById('sideFileInput'),
+  pendingSide,
+  document.getElementById('sideThumbs'),
+  document.getElementById('sideCount'),
+  document.getElementById('sideFields')
+);
+setupDrop(
+  document.getElementById('drawerDrop'),
+  document.getElementById('drawerFileInput'),
+  pendingDrawer,
+  document.getElementById('drawerThumbs'),
+  document.getElementById('drawerCount'),
+  null
+);
+
+function processFiles(files, pendingArr, thumbsEl, countEl, fieldsEl){
+  const arr = Array.from(files).filter(f => f.type.startsWith('image/'));
+  if(!arr.length){ showToast('Please select image files only.'); return; }
+  pendingArr.length = 0;
+  thumbsEl.innerHTML = '';
+  let done = 0;
+  arr.forEach((file, i) => {
+    const r = new FileReader();
+    r.onload = ev => {
+      pendingArr[i] = { dataUrl: ev.target.result, file };
+      const img = document.createElement('img');
+      img.src = ev.target.result;
+      thumbsEl.appendChild(img);
+      done++;
+      if(done === arr.length){
+        if(countEl){ countEl.textContent = arr.length + ' photo'+(arr.length>1?'s':'')+' ready'; countEl.style.display='block'; }
+        if(fieldsEl) fieldsEl.classList.add('visible');
+        showToast(arr.length + ' photo'+(arr.length>1?'s':'')+' selected!');
+      }
+    };
+    r.readAsDataURL(file);
+  });
+}
+
+// ── UPLOAD ──
+async function uploadFileToStorage(file){
+  const ext = file.name.split('.').pop() || 'jpg';
+  const path = `${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
+  const { error } = await sb.storage.from(BUCKET).upload(path, file, { cacheControl: '3600', upsert: false });
+  if(error) throw error;
+  const { data } = sb.storage.from(BUCKET).getPublicUrl(path);
+  return data.publicUrl;
+}
+
+async function submitUpload(source){
+  const pending = source === 'side' ? pendingSide : pendingDrawer;
+  if(!pending.length){ showToast('Please select photos first!'); return; }
+
+  const nameVal = source === 'side' ? document.getElementById('sideName').value.trim() : document.getElementById('drawerName').value.trim();
+  const gradVal = source === 'side' ? document.getElementById('sideGrad').value.trim() : document.getElementById('drawerGrad').value.trim();
+  const capVal  = source === 'side' ? document.getElementById('sideCap').value.trim()  : document.getElementById('drawerCap').value.trim();
+
+  const uploader = nameVal || 'A Jaguar Family';
+  const btnId = source === 'side' ? 'sideSubmitBtn' : 'drawerSubmitBtn';
+  const btn = document.getElementById(btnId);
+  btn.disabled = true;
+  btn.textContent = '⏳ Uploading…';
+
+  let successCount = 0;
+  let failCount = 0;
+
+  for(const item of pending){
+    try {
+      const imageUrl = await uploadFileToStorage(item.file);
+      const { error } = await sb.from('photos').insert({
+        uploader,
+        grad_name: gradVal || null,
+        caption: capVal || null,
+        image_url: imageUrl,
+        likes: 0
+      });
+      if(error) throw error;
+      successCount++;
+    } catch(e) {
+      console.error(e);
+      failCount++;
+    }
+  }
+
+  // Reset
+  pending.length = 0;
+  if(source === 'side'){
+    document.getElementById('sideFileInput').value = '';
+    document.getElementById('sideName').value = '';
+    document.getElementById('sideGrad').value = '';
+    document.getElementById('sideCap').value = '';
+    document.getElementById('sideThumbs').innerHTML = '';
+    document.getElementById('sideCount').style.display = 'none';
+    document.getElementById('sideFields').classList.remove('visible');
+  } else {
+    document.getElementById('drawerFileInput').value = '';
+    document.getElementById('drawerName').value = '';
+    document.getElementById('drawerGrad').value = '';
+    document.getElementById('drawerCap').value = '';
+    document.getElementById('drawerThumbs').innerHTML = '';
+    document.getElementById('drawerCount').textContent = '';
+    closeDrawer();
+  }
+
+  btn.disabled = false;
+  btn.textContent = '🎓 Add to Gallery';
+
+  if(successCount > 0){
+    showToast('🎉 ' + successCount + ' photo'+(successCount>1?'s':'')+' added to the shared gallery!');
+    await loadPhotos();
+    setTimeout(()=>document.getElementById('gallery-anchor').scrollIntoView({behavior:'smooth'}), 600);
+  }
+  if(failCount > 0) showToast('⚠️ ' + failCount + ' photo'+(failCount>1?'s':'')+' failed to upload.');
+}
+
+// ── GALLERY RENDER ──
+function getSorted(){
+  const sort = document.getElementById('sortSelect').value;
+  const arr = [...photos];
+  if(sort === 'newest') arr.sort((a,b)=>b.ts-a.ts);
+  else if(sort === 'oldest') arr.sort((a,b)=>a.ts-b.ts);
+  else if(sort === 'mostliked') arr.sort((a,b)=>b.likes-a.likes);
+  return arr;
+}
+
+function setView(v){
+  currentView = v;
+  ['Grid','Mason','List'].forEach(n => document.getElementById('view'+n).classList.remove('active'));
+  ({grid:'Grid',masonry:'Mason',list:'List'})[v] && document.getElementById('view'+({grid:'Grid',masonry:'Mason',list:'List'})[v]).classList.add('active');
+  const g = document.getElementById('galleryGrid');
+  g.className = 'gallery-grid' + (v !== 'grid' ? ' view-'+v : '');
+}
+
+function renderGallery(){
+  const grid = document.getElementById('galleryGrid');
+  const sub = document.getElementById('gallerySub');
+  const sorted = getSorted();
+  const vc = currentView !== 'grid' ? ' view-'+currentView : '';
+  grid.className = 'gallery-grid' + vc;
+
+  if(!sorted.length){
+    sub.textContent = 'No photos yet — be the first to share!';
+    grid.innerHTML = `<div class="gallery-empty"><div class="e-icon">📷</div><h3>The gallery is waiting!</h3><p>Upload photos using the panel on the left (or the 📸 button on mobile).</p></div>`;
+    return;
+  }
+
+  sub.textContent = sorted.length + ' memor'+(sorted.length===1?'y':'ies')+' shared by Jaguar families';
+  grid.innerHTML = sorted.map((p, idx) => {
+    const ini = p.uploader.split(' ').slice(0,2).map(w=>w[0]||'').join('').toUpperCase()||'?';
+    const realIdx = photos.findIndex(x=>x.id===p.id);
+    const isNew = (Date.now() - p.ts) < 3600000;
+    return `
+    <div class="photo-card" id="card-${p.id}" style="animation-delay:${Math.min(idx,10)*.05}s">
+      <div class="photo-img-wrap" onclick="openLb(${realIdx})">
+        <img src="${esc(p.src)}" alt="${esc(p.caption)||'Graduation memory'}" loading="lazy">
+        <div class="photo-overlay"><div class="overlay-uploader">📷 ${esc(p.uploader)}</div></div>
+        <div class="zoom-tag">🔍 Enlarge</div>
+        ${isNew ? '<div class="new-badge">New</div>' : ''}
+      </div>
+      <div class="photo-body">
+        <div class="photo-meta">
+          <div class="uploader-info">
+            <div class="avatar">${ini}</div>
+            <div>
+              <div class="uploader-name-text">${esc(p.uploader)}</div>
+              ${p.grad ? `<div class="grad-name">🎓 ${esc(p.grad)}</div>` : ''}
+            </div>
+          </div>
+          <div class="photo-date-text">${p.date}</div>
+        </div>
+        <div class="photo-caption">${esc(p.caption)||'<span style="opacity:.38;font-style:italic">No caption</span>'}</div>
+        <div class="photo-actions">
+          <button class="like-btn${p.liked?' liked':''}" onclick="toggleLike('${p.id}',${p.likes},${p.liked})" id="lb-${p.id}">
+            <span class="hrt">${p.liked?'❤️':'🤍'}</span>
+            <span id="lc-${p.id}">${p.likes}</span>
+          </button>
+          <button class="comment-toggle" onclick="toggleComments('${p.id}')">
+            💬 <span id="cc-${p.id}">${p.comments.length}</span>
+          </button>
+        </div>
+        <div class="comment-section" id="cs-${p.id}">
+          <div class="comment-row">
+            <input type="text" id="ci-${p.id}" placeholder="Leave a message…" maxlength="120" onkeydown="if(event.key==='Enter')addComment('${p.id}')">
+            <button class="comment-post" onclick="addComment('${p.id}')">Post</button>
+          </div>
+          <div class="comments-list" id="cl-${p.id}">
+            ${p.comments.map(c=>`<div class="c-item"><span class="c-author">${esc(c.author)}:</span><span class="c-text"> ${esc(c.text)}</span></div>`).join('')}
+          </div>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function esc(s){ if(!s) return ''; return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+// ── LIKES ──
+async function toggleLike(id, currentLikes, currentLiked){
+  const isLiked = likedSet.has(id);
+  const newLikes = isLiked ? currentLikes - 1 : currentLikes + 1;
+
+  // Optimistic UI
+  const btn = document.getElementById('lb-'+id);
+  const lc = document.getElementById('lc-'+id);
+  if(btn){ btn.classList.toggle('liked', !isLiked); btn.querySelector('.hrt').textContent = !isLiked?'❤️':'🤍'; }
+  if(lc) lc.textContent = newLikes;
+
+  if(isLiked) likedSet.delete(id); else likedSet.add(id);
+  saveLiked();
+
+  const { error } = await sb.from('photos').update({ likes: newLikes }).eq('id', id);
+  if(error){ showToast('Could not save like.'); if(isLiked) likedSet.add(id); else likedSet.delete(id); saveLiked(); await loadPhotos(); }
+  else {
+    const p = photos.find(x=>x.id===id);
+    if(p){ p.likes = newLikes; p.liked = !isLiked; }
+    updateStats();
+  }
+}
+
+// ── COMMENTS ──
+function toggleComments(id){
+  const cs = document.getElementById('cs-'+id);
+  if(!cs) return;
+  cs.classList.toggle('open');
+  if(cs.classList.contains('open')) setTimeout(()=>{ const i=document.getElementById('ci-'+id); if(i) i.focus(); },40);
+}
+
+async function addComment(id){
+  const inp = document.getElementById('ci-'+id); if(!inp) return;
+  const text = inp.value.trim(); if(!text) return;
+  const author = prompt('Your name:', '') || 'A Jaguar Fan';
+  inp.value = '';
+
+  // Optimistic
+  const cl = document.getElementById('cl-'+id);
+  if(cl){
+    const d = document.createElement('div'); d.className='c-item';
+    d.innerHTML=`<span class="c-author">${esc(author)}:</span><span class="c-text"> ${esc(text)}</span>`;
+    cl.appendChild(d); cl.scrollTop=cl.scrollHeight;
+  }
+  const cc = document.getElementById('cc-'+id);
+
+  const { error } = await sb.from('comments').insert({ photo_id: id, author: author.trim()||'A Jaguar Fan', body: text });
+  if(error){ showToast('Could not save comment.'); return; }
+  const p = photos.find(x=>x.id===id);
+  if(p){ p.comments.push({author,text}); if(cc) cc.textContent=p.comments.length; }
+  updateStats();
+}
+
+// ── LIGHTBOX ──
+function openLb(idx){
+  if(idx<0||idx>=photos.length) return;
+  lbIdx=idx; const p=photos[idx];
+  document.getElementById('lbImg').src=p.src;
+  document.getElementById('lbWho').textContent=p.uploader+(p.grad?' · 🎓 '+p.grad:'');
+  document.getElementById('lbCap').textContent=p.caption||'';
+  document.getElementById('lbCounter').textContent=(idx+1)+' / '+photos.length;
+  document.getElementById('lightbox').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeLb(){ document.getElementById('lightbox').classList.remove('open'); document.body.style.overflow=''; }
+function navLb(d){ openLb((lbIdx+d+photos.length)%photos.length); }
+document.addEventListener('keydown',e=>{
+  const lb=document.getElementById('lightbox');
+  if(!lb.classList.contains('open')) return;
+  if(e.key==='Escape') closeLb();
+  if(e.key==='ArrowLeft') navLb(-1);
+  if(e.key==='ArrowRight') navLb(1);
+});
+
+// ── STATS ──
+function updateStats(){
+  document.getElementById('statPhotos').textContent = photos.length;
+  document.getElementById('statHearts').textContent = photos.reduce((s,p)=>s+p.likes,0);
+  document.getElementById('statMsgs').textContent = photos.reduce((s,p)=>s+p.comments.length,0);
+}
+
+// ── MOBILE DRAWER ──
+function openDrawer(){ document.getElementById('mobDrawer').classList.add('open'); document.body.style.overflow='hidden'; }
+function closeDrawer(){ document.getElementById('mobDrawer').classList.remove('open'); document.body.style.overflow=''; }
+
+// ── TOAST ──
+function showToast(msg){
+  const t=document.getElementById('toast'); t.textContent=msg;
+  t.classList.add('show'); clearTimeout(t._t); t._t=setTimeout(()=>t.classList.remove('show'),3400);
+}
+
+// ── INIT ──
+loadPhotos();
+</script>
+</body>
+</html>
