@@ -290,6 +290,59 @@ body{
 .lb-cap{color:rgba(255,255,255,.5);font-size:12px;margin-top:3px}
 .lb-counter{color:rgba(255,255,255,.3);font-size:11px;margin-top:10px}
 
+/* ═══════ LOCK SCREEN ═══════ */
+.lock-screen{
+  position:fixed;inset:0;z-index:9000;
+  background:var(--navy-deep);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:32px 24px;
+  transition:opacity .4s ease,transform .4s ease;
+}
+.lock-screen.hidden{opacity:0;transform:scale(1.04);pointer-events:none}
+.lock-logo{
+  width:80px;height:80px;border-radius:50%;overflow:hidden;
+  border:2px solid rgba(200,169,81,.5);background:var(--navy-mid);
+  display:flex;align-items:center;justify-content:center;
+  margin-bottom:20px;
+}
+.lock-logo img{width:100%;height:100%;object-fit:contain;padding:8px}
+.lock-screen h1{
+  font-family:'Playfair Display',serif;
+  font-size:1.5rem;color:var(--white);font-weight:900;
+  text-align:center;line-height:1.25;margin-bottom:6px;
+}
+.lock-screen h1 .accent{color:var(--gold)}
+.lock-sub{font-size:12px;color:rgba(255,255,255,.35);letter-spacing:.06em;font-style:italic;margin-bottom:36px;text-align:center}
+.lock-box{width:100%;max-width:320px}
+.lock-label{font-size:12px;font-weight:600;color:var(--silver);margin-bottom:8px;display:block;text-align:center}
+.lock-input-wrap{position:relative;margin-bottom:14px}
+.lock-input{
+  width:100%;background:rgba(255,255,255,.07);
+  border:1.5px solid rgba(255,255,255,.18);border-radius:var(--rs);
+  padding:14px 44px 14px 16px;
+  font-family:'DM Sans',sans-serif;font-size:16px;font-weight:600;
+  color:var(--white);outline:none;letter-spacing:.1em;text-align:center;
+  transition:border-color .2s;
+}
+.lock-input:focus{border-color:var(--columbia)}
+.lock-input.error{border-color:#e85d75;animation:shake .35s ease}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-8px)}75%{transform:translateX(8px)}}
+.lock-toggle{
+  position:absolute;right:14px;top:50%;transform:translateY(-50%);
+  background:none;border:none;cursor:pointer;color:rgba(255,255,255,.35);font-size:16px;
+  padding:4px;
+}
+.lock-btn{
+  width:100%;background:var(--gold);color:var(--navy-deep);
+  border:none;border-radius:var(--rs);padding:14px;
+  font-family:'DM Sans',sans-serif;font-size:15px;font-weight:700;
+  cursor:pointer;transition:background .2s,transform .15s;
+}
+.lock-btn:active{transform:scale(.97)}
+.lock-btn:hover{background:var(--gold-light)}
+.lock-hint{font-size:11px;color:rgba(255,255,255,.2);text-align:center;margin-top:20px;line-height:1.7}
+.lock-err{font-size:12px;color:#e85d75;text-align:center;margin-top:8px;min-height:18px}
+
 /* ═══════ TOAST ═══════ */
 .toast{
   position:fixed;
@@ -306,6 +359,29 @@ body{
 </style>
 </head>
 <body>
+
+<!-- ── LOCK SCREEN ── -->
+<div class="lock-screen" id="lockScreen">
+  <div class="lock-logo">
+    <img src="https://schoolmanager.s3.amazonaws.com/uploads/pictures/d9d0f54a9822464f9e8a02d15ffa8b47.png" alt="JHS"
+      onerror="this.style.display='none'">
+  </div>
+  <h1>Johnson Jaguars<br><span class="accent">Class of 2026</span></h1>
+  <div class="lock-sub">North East ISD · San Antonio, Texas</div>
+  <div class="lock-box">
+    <label class="lock-label">Enter Access Code</label>
+    <div class="lock-input-wrap">
+      <input class="lock-input" id="lockInput" type="password"
+        placeholder="••••••••••••"
+        maxlength="30"
+        onkeydown="if(event.key==='Enter')tryUnlock()">
+      <button class="lock-toggle" id="lockToggle" onclick="toggleLockVis()" title="Show/hide">👁</button>
+    </div>
+    <button class="lock-btn" onclick="tryUnlock()">Unlock Gallery</button>
+    <div class="lock-err" id="lockErr"></div>
+  </div>
+  <div class="lock-hint">Contact your class coordinator for the access code.<br>Johnson High School · #JaguarPride</div>
+</div>
 
 <div class="app">
 
@@ -792,7 +868,43 @@ function showToast(msg){
   t._t = setTimeout(() => t.classList.remove('show'), 3400);
 }
 
-loadPhotos();
+// ── LOCK SCREEN ──
+const ACCESS_CODE = 'JAGUARS2026'; // change this to your preferred code
+const UNLOCK_KEY  = 'jhs26_unlocked';
+
+function checkLock(){
+  if(localStorage.getItem(UNLOCK_KEY) === 'yes'){
+    document.getElementById('lockScreen').classList.add('hidden');
+    loadPhotos();
+  }
+  // else: stay on lock screen, don't load photos yet
+}
+
+function tryUnlock(){
+  const input = document.getElementById('lockInput');
+  const err   = document.getElementById('lockErr');
+  if(input.value.trim().toUpperCase() === ACCESS_CODE.toUpperCase()){
+    localStorage.setItem(UNLOCK_KEY, 'yes');
+    err.textContent = '';
+    document.getElementById('lockScreen').classList.add('hidden');
+    loadPhotos();
+  } else {
+    input.classList.add('error');
+    err.textContent = 'Incorrect code — please try again.';
+    input.value = '';
+    setTimeout(() => input.classList.remove('error'), 400);
+  }
+}
+
+function toggleLockVis(){
+  const input  = document.getElementById('lockInput');
+  const toggle = document.getElementById('lockToggle');
+  const show   = input.type === 'password';
+  input.type         = show ? 'text'     : 'password';
+  toggle.textContent = show ? '🙈' : '👁';
+}
+
+checkLock();
 </script>
 </body>
 </html>
